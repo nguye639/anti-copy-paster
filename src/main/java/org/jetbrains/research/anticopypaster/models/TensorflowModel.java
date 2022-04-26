@@ -17,7 +17,7 @@ import java.util.Collections;
 
 
 public class TensorflowModel extends PredictionModel{
-    private String modelResourcePath = "tf_model";
+    private String modelResourcePath = "TrainedModel";
     private SavedModelBundle modelBundle;
     static final Logger LOG = Logger.getInstance(AntiCopyPastePreProcessor.class);
 
@@ -49,7 +49,8 @@ public class TensorflowModel extends PredictionModel{
         Tensor<Float> x = Tensor.create(shape, floatBuffer);
 
         return runModel(session, x,
-                "serving_default_input_1:0", "StatefulPartitionedCall:0");
+                "serving_default_batch_normalization_input:0",
+                "StatefulPartitionedCall:0");
     }
 
     /**
