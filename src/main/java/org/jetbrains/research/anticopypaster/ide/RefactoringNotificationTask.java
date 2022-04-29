@@ -16,11 +16,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.research.anticopypaster.AntiCopyPasterBundle;
 import org.jetbrains.research.anticopypaster.checkers.FragmentCorrectnessChecker;
 import org.jetbrains.research.anticopypaster.models.PredictionModel;
-import org.jetbrains.research.anticopypaster.models.ScikitModel;
 import org.jetbrains.research.anticopypaster.models.TensorflowModel;
 import org.jetbrains.research.extractMethod.metrics.MetricCalculator;
 import org.jetbrains.research.extractMethod.metrics.features.FeaturesVector;
-import org.tensorflow.Tensor;
 
 import javax.swing.event.HyperlinkEvent;
 import java.util.HashMap;
@@ -35,9 +33,15 @@ import static org.jetbrains.research.anticopypaster.utils.PsiUtil.*;
  * Shows a notification about discovered Extract Method refactoring opportunity.
  */
 public class RefactoringNotificationTask extends TimerTask {
+<<<<<<< HEAD
     private static final Double predictionThreshold = 0.0; // certainty threshold for models
     private ConcurrentLinkedQueue<RefactoringEvent> eventsQueue = new ConcurrentLinkedQueue<>();
     private static DuplicatesInspection inspection = new DuplicatesInspection();
+=======
+    private static final Double predictionThreshold = 0.5; // certainty threshold for models
+    private final ConcurrentLinkedQueue<RefactoringEvent> eventsQueue = new ConcurrentLinkedQueue<>();
+    private static final DuplicatesInspection inspection = new DuplicatesInspection();
+>>>>>>> c5bb11cf25520ead0ffedf0ca8f0a75341d29b89
     private final NotificationGroup NOTIFICATION_GROUP = new NotificationGroup("Extract Method suggestion",
             NotificationDisplayType.BALLOON,
             true);

@@ -16,23 +16,34 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collections;
 
 
+<<<<<<< HEAD
 public class TensorflowModel extends PredictionModel{
     private String modelResourcePath = "TrainedModel";
     private SavedModelBundle modelBundle;
+=======
+public class TensorflowModel extends PredictionModel {
+    private final String modelResourcePath = "TrainedModel";
+    private final SavedModelBundle modelBundle;
+>>>>>>> c5bb11cf25520ead0ffedf0ca8f0a75341d29b89
     static final Logger LOG = Logger.getInstance(AntiCopyPastePreProcessor.class);
 
-    public TensorflowModel() {
+    public TensorflowModel(){
+        modelBundle = loadModel(modelResourcePath);
+    }
+
+    private static SavedModelBundle loadModel(String modelResourcePath) {
         try {
             copyFromJar(modelResourcePath, Paths.get(modelResourcePath));
-        } catch (URISyntaxException | IOException e) {
-            LOG.error("[ACP] Could not read the model" + e.getMessage());
+        } catch (URISyntaxException | IOException | FileSystemAlreadyExistsException e) {
+            LOG.warn("[ACP] Issues when reading the model" + e.getMessage());
         }
 
         try {
-            modelBundle = SavedModelBundle.load(modelResourcePath, "serve");
+            return SavedModelBundle.load(modelResourcePath, "serve");
         } catch (Exception ex) {
             LOG.error("[ACP] Could not load the model" + ex.getMessage());
         }
+        return null;
     }
 
     @Override
@@ -79,8 +90,8 @@ public class TensorflowModel extends PredictionModel{
      * Copies resource directory 'source' from jar,
      * into 'target' in gradle cache
      */
-    public void copyFromJar(String source, final Path target) throws URISyntaxException, IOException {
-        URI resource = getClass().getClassLoader().getResource(source).toURI();
+    public static void copyFromJar(String source, final Path target) throws URISyntaxException, IOException {
+        URI resource = TensorflowModel.class.getClassLoader().getResource(source).toURI();
         FileSystem fileSystem = FileSystems.newFileSystem(
                 resource,
                 Collections.<String, String>emptyMap()
