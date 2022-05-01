@@ -21,9 +21,7 @@ import org.jetbrains.research.extractMethod.metrics.MetricCalculator;
 import org.jetbrains.research.extractMethod.metrics.features.FeaturesVector;
 
 import javax.swing.event.HyperlinkEvent;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static com.intellij.refactoring.extractMethod.ExtractMethodHandler.getProcessor;
@@ -33,15 +31,11 @@ import static org.jetbrains.research.anticopypaster.utils.PsiUtil.*;
  * Shows a notification about discovered Extract Method refactoring opportunity.
  */
 public class RefactoringNotificationTask extends TimerTask {
-<<<<<<< HEAD
+
     private static final Double predictionThreshold = 0.0; // certainty threshold for models
-    private ConcurrentLinkedQueue<RefactoringEvent> eventsQueue = new ConcurrentLinkedQueue<>();
-    private static DuplicatesInspection inspection = new DuplicatesInspection();
-=======
-    private static final Double predictionThreshold = 0.5; // certainty threshold for models
     private final ConcurrentLinkedQueue<RefactoringEvent> eventsQueue = new ConcurrentLinkedQueue<>();
     private static final DuplicatesInspection inspection = new DuplicatesInspection();
->>>>>>> c5bb11cf25520ead0ffedf0ca8f0a75341d29b89
+
     private final NotificationGroup NOTIFICATION_GROUP = new NotificationGroup("Extract Method suggestion",
             NotificationDisplayType.BALLOON,
             true);
@@ -53,7 +47,7 @@ public class RefactoringNotificationTask extends TimerTask {
 
     @Override
     public void run() {
-        PredictionModel model = new ScikitModel();//new TensorflowModel();
+        PredictionModel model = new TensorflowModel();
         while (!eventsQueue.isEmpty()) {
             try {
                 final RefactoringEvent event = eventsQueue.poll();
@@ -85,7 +79,9 @@ public class RefactoringNotificationTask extends TimerTask {
                                 AntiCopyPasterBundle.message(
                                         "extract.method.refactoring.is.available"),
                                 getRunnableToShowSuggestionDialog(event)
+
                         );
+
                     }
                 });
             } catch (Exception e) {

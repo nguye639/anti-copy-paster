@@ -16,7 +16,7 @@ public class RefactoringEvent {
     private final Project project;
     private final Editor editor;
     private final int linesOfCode;
-    private boolean forceExtraction = true;
+    private boolean forceExtraction = false;
     private String reasonToExtract;
 
     public RefactoringEvent(PsiFile file, PsiMethod destinationMethod, String text, int matches,

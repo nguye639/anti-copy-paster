@@ -16,15 +16,11 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collections;
 
 
-<<<<<<< HEAD
-public class TensorflowModel extends PredictionModel{
-    private String modelResourcePath = "TrainedModel";
-    private SavedModelBundle modelBundle;
-=======
+
 public class TensorflowModel extends PredictionModel {
     private final String modelResourcePath = "TrainedModel";
     private final SavedModelBundle modelBundle;
->>>>>>> c5bb11cf25520ead0ffedf0ca8f0a75341d29b89
+
     static final Logger LOG = Logger.getInstance(AntiCopyPastePreProcessor.class);
 
     public TensorflowModel(){
@@ -51,13 +47,14 @@ public class TensorflowModel extends PredictionModel {
         // create the session from the Bundle
         Session session = modelBundle.session();
         float[] featuresArray = featuresVector.buildArray();
-
+        System.err.println(featuresArray.toString());
         FloatBuffer floatBuffer = FloatBuffer.wrap(featuresArray);
 
         long[] shape = new long[]{1, 78, 1};
 
         // create an input Tensor
         Tensor<Float> x = Tensor.create(shape, floatBuffer);
+
 
         return runModel(session, x,
                 "serving_default_batch_normalization_input:0",
